@@ -1,21 +1,23 @@
 package com.yxl.trains.trains.service;
 
-import com.yxl.trains.trains.annotions.DataLen;
+import com.yxl.magicbox.exceptions.YRuntimeException;
+import com.yxl.magicbox.utils.StringUtils;
+import com.yxl.trains.trains.annotions.FieldStyle;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-public class FieldStyleCheck {
+public class FieldStyleChecker {
 
 
     /**
-     * 校验数据属性至
+     * 校验数据属性值
      *
      * @param obj
      * @throws Exception
      */
     @SuppressWarnings("rawtypes")
-    public static void checkAttributeValueLen(Object obj) throws Exception {
+    public static void checkAttributeValue(Object obj) throws Exception {
         if (null != obj) {
             // 得到class
             Class cls = obj.getClass();
@@ -26,37 +28,35 @@ public class FieldStyleCheck {
                 try {
                     // 得到属性
                     Field field = fields[i];
-                    Annotation[] anns = field.getAnnotations();
-                    DataLen dataLen = null;
-                    for (Annotation ann : anns) {
-                        if (ann instanceof DataLen)
-                            dataLen = (DataLen) ann;
+                    Annotation[] annotations = field.getAnnotations();
+                    FieldStyle fieldStyle = null;
+                    for (Annotation annotation : annotations) {
+                        if (annotation instanceof FieldStyle)
+                            fieldStyle = (FieldStyle) annotation;
                     }
 
-                    // 判断该属性是否有校验数据长度的注解
-                    if (null != dataLen) {
+                    // 校验注解值
+                    if (null != fieldStyle) {
                         // 打开私有访问
                         field.setAccessible(true);
                         // 获取属性
                         String name = field.getName();
                         // 获取属性值
                         Object value = field.get(obj);
-                        // 指定的长度
-                        int len = dataLen.value();
-                        // 数据的长度
-                        int vaLen = 0;
+                        // 获取注解值
+                        String pattern = fieldStyle.value();
+                        // 属性值
                         String data = null;
                         // 一个个赋值
                         if (null != value && value instanceof String) {
                             data = (String) value;
-                            vaLen = data.length();
+                            if (StringUtils.isNotEmpty(data) && !data.matches(pattern)) {
+                                String msg = "对象" + cls.getName() + ": 属性" + name + "的值不符合要求格式!";
+                                throw new YRuntimeException(msg);
+                            }
                         }
 
-                        if (vaLen != len) {
-                            System.out.print("对象:" + cls.getName() + "中存在不符合条件的参数,参数名:" + name + "参数值:" + data + "指定的数据长度:" + len + "实际长度:" + vaLen
-                                    + "不符合条件");
-                            throw new Exception();
-                        }
+
                     }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

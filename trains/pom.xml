@@ -19,6 +19,12 @@
     </properties>
 
     <dependencies>
+        <!--自己的基础包-->
+        <dependency>
+            <groupId>com.yxl</groupId>
+            <artifactId>magicbox</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
