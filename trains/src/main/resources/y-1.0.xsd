@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+            targetNamespace="file:///Users/cap/IdeaProjects/workplace/y-trains/trains/src/main/resources"
+            xmlns="file:///Users/cap/IdeaProjects/workplace/y-trains/trains/src/main/resources/y-1.0.xsd"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans-4.2.xsd"></xsd:import>
+    <!--在xml的xsi:schemaLocation中必须配置targetNamespace值以及targetNamespace/*.xsd值-->
+    <xsd:element name="styles">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                    <xsd:element name="style">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="Pattern" type="xsd:string"></xsd:element>
+                            </xsd:sequence>
+                            <xsd:attribute name="name">
+                            </xsd:attribute>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

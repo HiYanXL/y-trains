@@ -1,8 +1,8 @@
 package com.yxl.trains.trains.service;
 
 import com.yxl.magicbox.exceptions.YRuntimeException;
-import com.yxl.magicbox.utils.StringUtils;
 import com.yxl.trains.trains.annotions.FieldStyle;
+import com.yxl.trains.trains.jobs.FieldStylesJob;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -18,7 +18,7 @@ public class FieldStyleChecker {
      */
     @SuppressWarnings("rawtypes")
     public static void checkAttributeValue(Object obj) throws Exception {
-        if (null != obj) {
+        if (obj != null) {
             // 得到class
             Class cls = obj.getClass();
             System.out.println("校验对象中参数的数据长度是否符合要求,校验对象:" + cls.getName());
@@ -36,7 +36,7 @@ public class FieldStyleChecker {
                     }
 
                     // 校验注解值
-                    if (null != fieldStyle) {
+                    if (fieldStyle != null) {
                         // 打开私有访问
                         field.setAccessible(true);
                         // 获取属性
@@ -44,19 +44,20 @@ public class FieldStyleChecker {
                         // 获取属性值
                         Object value = field.get(obj);
                         // 获取注解值
-                        String pattern = fieldStyle.value();
+                        String style = fieldStyle.value();
                         // 属性值
                         String data = null;
                         // 一个个赋值
-                        if (null != value && value instanceof String) {
-                            data = (String) value;
-                            if (StringUtils.isNotEmpty(data) && !data.matches(pattern)) {
-                                String msg = "对象" + cls.getName() + ": 属性" + name + "的值不符合要求格式!";
-                                throw new YRuntimeException(msg);
+                        if (style != null) {
+                            String pattern = FieldStylesJob.stylesCache.get(style);
+                            if (pattern != null && value != null && value instanceof String) {
+                                data = (String) value;
+                                if (data != null && !data.matches(pattern)) {
+                                    String msg = "对象" + cls.getName() + ": 属性" + name + "的值不符合要求格式!";
+                                    throw new YRuntimeException(msg);
+                                }
                             }
                         }
-
-
                     }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

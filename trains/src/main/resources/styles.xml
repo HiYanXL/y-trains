@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<styles>
+    <style name="PrdNameStyle">
+        <Pattern>^.{1,32}$</Pattern>
+    </style>
+    <style name="PrdCodeStyle">
+        <Pattern>^[A-Z]{3}[0-9]{6}$</Pattern>
+    </style>
+</styles>

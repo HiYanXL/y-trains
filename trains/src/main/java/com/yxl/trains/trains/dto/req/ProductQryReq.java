@@ -2,8 +2,9 @@ package com.yxl.trains.trains.dto.req;
 
 import com.yxl.trains.trains.annotions.FieldStyle;
 
-public class ProductQryReq extends Req{
-    @FieldStyle(value = "[a-z0-9A-Z_]{1,32}")
+public class ProductQryReq extends Req {
+
+    @FieldStyle(value = "PrdNameStyle")
     private String prdName;
     private String prdNo;
 

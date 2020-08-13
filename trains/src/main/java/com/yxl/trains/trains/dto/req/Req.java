@@ -1,6 +1,6 @@
 package com.yxl.trains.trains.dto.req;
 
-import java.lang.reflect.Field;
+import com.yxl.magicbox.utils.StringUtils;
 
 public class Req {
     private static int counter = 0;
@@ -16,26 +16,6 @@ public class Req {
             counter = 0;
             return super.toString();
         }
-        Class cls = object.getClass();
-        Field[] fields = cls.getDeclaredFields();
-        StringBuffer sb = new StringBuffer(object.toString()).append(" ");
-        for (int i = 0; i < fields.length; i++) {
-            try {
-                Field field = fields[i];
-                field.setAccessible(true);
-                String name = field.getName();
-                Object value = field.get(object);
-                sb.append(name).append(":").append(value);
-                if (i < fields.length - 1) {
-                    sb.append(",");
-                } else {
-                    sb.append(".");
-                }
-
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return sb.toString();
+        return StringUtils.Obj2String(object);
     }
 }
