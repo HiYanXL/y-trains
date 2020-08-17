@@ -62,7 +62,7 @@ public class AnnotationTests extends TrainsApplicationTests {
     @Test
     public void testPrdQry() throws Exception {
         ProductQryReq req = new ProductQryReq();
-        req.setPrdName("");
+        req.setPrdName("hello");
         req.setPrdNo("89");
         productQryService.query(req);
         System.out.println("".matches("^.{1,32}$"));

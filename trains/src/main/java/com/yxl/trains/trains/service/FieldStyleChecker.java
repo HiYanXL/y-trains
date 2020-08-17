@@ -21,7 +21,7 @@ public class FieldStyleChecker {
         if (obj != null) {
             // 得到class
             Class cls = obj.getClass();
-            System.out.println("校验对象中参数的数据长度是否符合要求,校验对象:" + cls.getName());
+            System.out.println("校验对象中参数的数据是否符合要求,校验对象:" + cls.getName());
             // 得到所有属性
             Field[] fields = cls.getDeclaredFields();
             for (int i = 0; i < fields.length; i++) {// 遍历
