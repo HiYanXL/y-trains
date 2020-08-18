@@ -6,6 +6,8 @@ import com.yxl.trains.trains.jobs.FieldStylesJob;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FieldStyleChecker {
 
@@ -17,13 +19,14 @@ public class FieldStyleChecker {
      * @throws Exception
      */
     @SuppressWarnings("rawtypes")
-    public static void checkAttributeValue(Object obj) throws Exception {
+    public static void checkAttributeValue(Object obj) {
         if (obj != null) {
             // 得到class
             Class cls = obj.getClass();
             System.out.println("校验对象中参数的数据是否符合要求,校验对象:" + cls.getName());
             // 得到所有属性
             Field[] fields = cls.getDeclaredFields();
+            List<Exception> es = new ArrayList<>();
             for (int i = 0; i < fields.length; i++) {// 遍历
                 try {
                     // 得到属性
@@ -53,8 +56,9 @@ public class FieldStyleChecker {
                             if (pattern != null && value != null && value instanceof String) {
                                 data = (String) value;
                                 if (data != null && !data.matches(pattern)) {
-                                    String msg = "对象" + cls.getName() + ": 属性" + name + "的值不符合要求格式!";
-                                    throw new YRuntimeException(msg);
+                                    String msg = " 属性" + name + "的值不符合要求格式!";
+                                    es.add(new YRuntimeException(msg));
+                                    //throw new YRuntimeException(msg);
                                 }
                             }
                         }
@@ -62,6 +66,14 @@ public class FieldStyleChecker {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
+            }
+            if (es != null && !es.isEmpty()) {
+                Object[] args = new Object[es.size()];
+                for (int i = 0; i < es.size(); i++) {
+                    Exception exception = es.get(i);
+                    args[i] = exception.getMessage();
+                }
+                throw new YRuntimeException("对象" + cls.getName() + ":存在不符合格式的属性值!", args);
             }
         }
 

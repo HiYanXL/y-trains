@@ -1,5 +1,6 @@
 package com.yxl.trains.trains.usercases;
 
+import com.yxl.magicbox.utils.PrintSeparatorUtils;
 import com.yxl.trains.trains.TrainsApplicationTests;
 import com.yxl.trains.trains.annotions.DataLen;
 import com.yxl.trains.trains.annotions.FieldStyle;
@@ -60,13 +61,24 @@ public class AnnotationTests extends TrainsApplicationTests {
 
 
     @Test
-    public void testPrdQry() throws Exception {
-        ProductQryReq req = new ProductQryReq();
-        req.setPrdName("hello");
-        req.setPrdNo("89");
-        productQryService.query(req);
-        System.out.println("".matches("^.{1,32}$"));
+    public void testPrdQry() {
 
+        productQryService.query(new ProductQryReq("hello", "GFL202001"));
+        PrintSeparatorUtils.print();
+
+        try {
+            productQryService.query(new ProductQryReq("yes", "90"));
+        }catch (Exception e){
+            e.printStackTrace();
+            PrintSeparatorUtils.print();
+        }
+
+        try {
+            productQryService.query(new ProductQryReq("", "90"));
+        }catch (Exception e){
+            e.printStackTrace();
+            PrintSeparatorUtils.print();
+        }
     }
 
 }

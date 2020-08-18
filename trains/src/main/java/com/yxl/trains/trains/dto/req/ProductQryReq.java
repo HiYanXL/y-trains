@@ -14,6 +14,7 @@ public class ProductQryReq extends Req {
 
     @FieldStyle(value = "PrdNameStyle")
     private String prdName;
+    @FieldStyle(value = "PrdCodeStyle")
     private String prdNo;
 
     public String getPrdName() {
