@@ -1,10 +1,8 @@
 package com.yxl.trains.trains.facade;
 
 import com.yxl.trains.trains.dto.req.ProductQryReq;
-
-import java.util.List;
-import java.util.Map;
+import com.yxl.trains.trains.dto.res.ProductQryRes;
 
 public interface ProductQryService{
-    List<Map<String,Object>> query(ProductQryReq req);
+    ProductQryRes query(ProductQryReq req);
 }

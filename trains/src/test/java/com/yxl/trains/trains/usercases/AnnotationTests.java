@@ -11,6 +11,8 @@ import com.yxl.trains.trains.service.FieldStyleChecker;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
+
 
 public class AnnotationTests extends TrainsApplicationTests {
     @Autowired
@@ -68,17 +70,38 @@ public class AnnotationTests extends TrainsApplicationTests {
 
         try {
             productQryService.query(new ProductQryReq("yes", "90"));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             PrintSeparatorUtils.print();
         }
 
         try {
             productQryService.query(new ProductQryReq("", "90"));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             PrintSeparatorUtils.print();
         }
     }
+
+    @Test
+    public void testSwitch() {
+        String str = null;
+        System.out.println(selectValue(str));
+    }
+
+    private String selectValue(String str) {
+        if(str!=null)
+        switch (str) {
+            case "a":
+                return str + "1";
+
+            case "b":
+                return str + new Date();
+            default:
+                return str;
+        }
+        return null;
+    }
+
 
 }
